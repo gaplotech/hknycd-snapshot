@@ -13,6 +13,19 @@
 curl https://hknycd.com/zh-Hant/images/TB2020_Sponsor_chi_1.png > images/TB2020_Sponsor_chi_1.png
 ```
 
+# 現在公開可能な情報
+* https://www.hknycd.com/ 使用了 AWS S3, Cloudfront CDN 服務去 Host Static files
+* https://www.hknycd.com/api/*, HTTP Header 返回了 Apache(Ubuntu)
+
+API List (從公開 的 HTML 中找出）
+* /api/v1/list-card-game-winner-coupon-number
+* /api/v1/login
+* /api/v1/card-game-check
+* /api/v1/list-lucky-draw-winner-ticket-number
+* /api/v1/lucky-draw-redeem
+* /api/v2/register
+* /api/v2/get-verify-token
+
 # 促請
 現促請旅發局將有關代碼開源，令更多香港的開發人員可以從這次失敗中學習相關經驗；日後香港的開發人員再開發高流量的應用程序時，可以避免重蹈覆轍，從而推動香港科網發展，最後提升香港互聯網相關產業鏈的質素。
 

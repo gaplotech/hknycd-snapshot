@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>2020香港除夕倒數大抽獎</title>
+    <link rel="stylesheet" href="js/FlipClock-master/compiled/flipclock.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="js/featherlight-master/release/featherlight.min.css">
+    <script src="js/main.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/featherlight-master/release/featherlight.min.js"></script>
+    <script src="js/FlipClock-master/compiled/flipclock.js"></script>
+    <script src="js/url-search-params-polyfill-master/index.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155005261-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-155005261-1');
+    </script>
+    <!-- 
+    Start of global snippet: Please do not remove
+    Place this snippet between the <head> and </head> tags on every page of your site.
+    -->
+    <!-- Global site tag (gtag.js) - Google Marketing Platform -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=DC-2640398"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'DC-2640398');
+    </script>
+    <!-- End of global snippet: Please do not remove -->
+    <!--
+    Event snippet for 2019 NYCD - 01 Landing on : Please do not remove.
+    Place this snippet on pages with events that you’re tracking. 
+    Creation date: 12/23/2019
+    -->
+    <script>
+    gtag('event', 'conversion', {
+      'allow_custom_scripts': true,
+      'send_to': 'DC-2640398/2019n0/2019n0+standard'
+    });
+  </script>
+  <noscript>
+  <img src="https://ad.doubleclick.net/ddm/activity/src=2640398;type=2019n0;cat=2019n0;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;ord=1?" width="1" height="1" alt=""/>
+  </noscript>
+  <!-- End of event snippet: Please do not remove -->
+    <style type="text/css">
+        .featherlight-content {
+            background: transparent !important;
+        }
+
+        .featherlight .featherlight-close-icon, title.featherlight-inner {
+            color: #999 !important;
+        }
+    </style>
+</head>
+
+<body>
+<div id="mask-wrapper"></div>
+<div class="page-landing">
+    <div class="site-content">
+        <div class="background"></div>
+        <div class="container">
+            <header>
+                <div class="language-side">
+                    <div class="language">
+                        <a href="../en" class="en lang">ENG</a>
+                    </div>
+                </div>
+                <div class="logo-side">
+                    <div class="left-side">
+                        <div class="sponsor1 sponsor"><img src="images/TB2020_Sponsor_chi_1.png" alt=""></div>
+                        <div class="sponsor2 sponsor"><img src="images/TB2020_Sponsor_chi_2.png" alt=""></div>
+                    </div>
+                    <div class="right-side">
+                        <div class="sponsor3 sponsor"><img src="images/TB2020_Sponsor_chi_3-tb.png" alt=""></div>
+                        <div class="sponsor4 sponsor"><img src="images/TB2020_Sponsor_chi_3-dragon.png" alt=""></div>
+                    </div>
+                </div>
+            </header>
+            <div class="first-title"></div>
+            <div class="clock-side">
+                <div class="clock"></div>
+            </div>
+            <a href="../zh-Hant" class="lucky-draw-logo small"></a>
+            <div class="remind-message">
+                「幻彩詠香江」大型燈光音樂匯演將於午夜12:00在維多利亞港上演，<a style="color:#ff0000;" target="_blank" href="https://www.youtube.com/user/hongkong">按此</a>欣賞！<br><br>
+                12月31日下午6:00至晚上11:30
+            </div>
+            <div class="details"></div>
+            <div class="option">
+                <ul>
+                    <li>
+                        <button id="luckydraw-button" class="button purple">
+                            <div class="content">贏取國泰航空來回機票、蘋果iPhone手機等豐富獎品</div>
+                            <div class="title">壓軸大抽獎</div>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="card-game-button" class="button blue">
+                            <div class="content">兩萬張現金券大放送</div>
+                            <div class="title">即玩即贏抽獎遊戲</div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="button grey">
+                            <a target="_blank" href="/file/main_tnc/tc/NYCD2020_ALL_T&C_chi.pdf" class="title prize-redemption" style="color: #ffffff;display: block;text-decoration: none;">條款及細則</a>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="promotion-code">
+            推廣生意的競賽牌照號碼: 53010-11
+        </div>
+    </div>
+    <script type="text/javascript">
+        
+    
+        var playCardGameRecaptchaWidget = null;
+        var luckydrawRecaptchaWidget = null;
+
+        $(document).ready(function () {
+
+            // Set dates.
+            var futureDate = new Date(config.time["end_date"]);
+            var currentDate = new Date();
+
+            // Calculate the difference in seconds between the future and current date
+            var diff = futureDate - currentDate;
+
+            var checkTime = function () {
+                // Set dates.
+                var futureDate = new Date(config.time["end_date"]);
+                var currentDate = new Date();
+
+                // Calculate the difference in seconds between the future and current date
+                var diff = futureDate - currentDate;
+                
+                if (diff <= 0) {
+                    $('.page-grand-luckydraw').show();
+                    $('.page-landing').hide();
+                } 
+
+                // On active period
+                else if(currentDate > config.time["active_date"]) {
+                    $('.page-landing').show();
+                    $('.details').hide();
+                    $('.option').show();
+
+                } 
+                // Out of active period
+                else {
+                    $('.page-landing').show();
+                    $('.details').show();
+                    $('.option').hide();
+                }
+            };
+
+            checkTime();
+    
+            // Calculate day difference and apply class to .clock for extra digit styling.
+            function dayDiff(first, second) {
+                return (second - first) / (1000 * 60 * 60 * 24);
+            }
+    
+            if (dayDiff(currentDate, futureDate) < 100) {
+                $('.clock').addClass('twoDayDigits');
+            } else {
+                $('.clock').addClass('threeDayDigits');
+            }
+    
+            if (diff < 0) {
+                diff = 0;
+            }
+    
+            var clock = new FlipClock($('.clock'), diff / 1000, {
+                clockFace: 'DailyCounter',
+                countdown: true,
+                language: 'Chinese',
+                // The onStart callback
+                callbacks: {
+                    stop: function () {
+                        $('.page-grand-luckydraw').show();
+                        $('.page-landing').hide();
+                    },
+                    interval: function () {
+                        checkTime();
+                    }
+                }
+            });
+        });
+    
+        function showLuckydrawRecaptchaWidget() {
+            try {
+                //grecaptcha.reset(luckydrawRecaptchaWidget);
+                //grecaptcha.execute(luckydrawRecaptchaWidget);
+            }
+            catch(error) {
+            }
+        }
+    
+        function showPlayCardGameRecaptchaWidget() {
+            try {
+                //grecaptcha.reset(playCardGameRecaptchaWidget);
+                //grecaptcha.execute(playCardGameRecaptchaWidget);
+            }
+            catch(error) {
+            }
+        }
+    
+        function onLuckyDrawRedeem(token) {
+            try {
+                //grecaptcha.reset(luckydrawRecaptchaWidget);
+            }
+            catch(error) {
+            }
+    
+            if (getCookie('access_token') == null) {
+                if(registrationExpired()) {
+                    $('#mask-wrapper').show();
+                    window.location.href = 'luckydraw-register.html';
+                    return;
+                }
+                
+                alert('活動現已停止登記，感謝參與！');
+                return;
+            }
+    
+            var requestLang = 1;
+            $('#mask-wrapper').show();
+            $.ajax({
+                type: 'POST',
+                dataType: 'json', cache: false,
+                url: config.endpoint + '/v1/card-game-check',
+                data: {
+                    lang: requestLang,
+                    token: token
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('access_token'));
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    try {
+                        //grecaptcha.reset(luckydrawRecaptchaWidget);
+                    }
+                    catch(error) {
+                    }
+                },
+                success: function (data) {
+                    if (data.status == 'success') {
+                        if (data.detail != null) {
+                            window.location.href = 'luckydraw-successful.html';
+                        }
+                        $('#mask-wrapper').hide();
+                    }
+                },
+                error: function (data) {
+                    if (data.status != 400) {
+                        if (data && data.status >= 500) {
+  window.location.href = 'system-busy.html';
+}
+                    }
+                },
+                statusCode: {
+                    400: function (data) {
+                        var errorMessage = '';
+    
+                        $.each(data.responseJSON.detail, function (key, value) {
+                            errorMessage += value;
+                            errorMessage += '\n';
+                        });
+    
+                        alert(errorMessage);
+                        $('#mask-wrapper').hide();
+                    },
+                    401: function () {
+                        localStorage.removeItem('access_token');
+                        window.location.href = '/zh-Hant';
+                    },
+                    403: function (data) {
+                        var errorMessage = '';
+    
+                        $.each(data.responseJSON.detail, function (key, value) {
+                            errorMessage += value;
+                            errorMessage += '\n';
+                        });
+    
+                        alert(errorMessage);
+                        $('#mask-wrapper').hide();
+                    }
+                }
+            });
+        }
+    
+        function onPlayCardGame(token) {
+            try {
+                //grecaptcha.reset(playCardGameRecaptchaWidget);
+            }
+            catch(error) {
+            }
+    
+            if (getCookie('access_token') == null) {
+                if(registrationExpired()) {
+                    $('#mask-wrapper').show();
+                    window.location.href = 'card-game-register.html';
+                    return;
+                }
+                alert('活動現已停止登記，感謝參與！');
+                return;
+            }
+            else {
+                var requestLang = 1;
+                $('#mask-wrapper').show();
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json', cache: false,
+                    url: config.endpoint + '/v1/card-game-check',
+                    data: {
+                        lang: requestLang,
+                        token: token
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('access_token'));
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                        try {
+                            //grecaptcha.reset(playCardGameRecaptchaWidget);
+                        }
+                        catch(error) {
+                        }
+                    },
+                    success: function (data) {
+                        if (data.status == 'success' && typeof (data.detail) == 'string' && data.detail.length > 0) {
+                            localToken.set(data.detail);
+                            window.location.href = 'game-successful-with-coupon.html';
+                        }
+                        else {
+                            window.location.href = 'card-game.html';
+                        }
+                    },
+                    error: function (data) {
+                        if (data.status != 400) {
+                            if (data && data.status >= 500) {
+  window.location.href = 'system-busy.html';
+}
+                        }
+                    },
+                    statusCode: {
+                        400: function (data) {
+                            var errorMessage = '';
+    
+                            $.each(data.responseJSON.detail, function (key, value) {
+                                errorMessage += value;
+                                errorMessage += '\n';
+                            });
+    
+                            alert(errorMessage);
+                            $('#mask-wrapper').hide();
+                        },
+                        401: function () {
+                            localStorage.removeItem('access_token');
+                            window.location.href = '/zh-Hant';
+                        },
+                        403: function (data) {
+                            // 403 redirection to login page
+                            window.location.href = 'luckydraw-register.html';
+                        }
+                    }
+                });
+            }
+        }
+    
+        $(document).ready(function () {
+            /*
+            playCardGameRecaptchaWidget = grecaptcha.render('card-game-button', {
+                'sitekey': '6Ldro8kUAAAAAFKNs0AIODd7RnzLkhWE6evNltmA',
+                'callback': onPlayCardGame
+            });
+            //grecaptcha.reset(playCardGameRecaptchaWidget);
+            */
+            $('#card-game-button').click(function() {
+                onPlayCardGame('88recaptcha');
+            });
+    
+            /*
+            luckydrawRecaptchaWidget = grecaptcha.render('luckydraw-button', {
+                'sitekey': '6Ldro8kUAAAAAFKNs0AIODd7RnzLkhWE6evNltmA',
+                'callback': onLuckyDrawRedeem
+            });
+            //grecaptcha.reset(luckydrawRecaptchaWidget);
+            */
+            $('#luckydraw-button').click(function() {
+                onLuckyDrawRedeem('88recaptcha');
+            });
+        });
+    </script>
+</div>
+<div class="page-grand-luckydraw" style="display:none">
+    <div class="site-content">
+        <div class="background"></div>
+        <div class="container">
+            <header>
+                <div class="language-side">
+                    <div class="language">
+                        <a href="../en" class="en lang">ENG</a>
+                    </div>
+                </div>
+                <div class="logo-side">
+                    <div class="left-side">
+                        <div class="sponsor1 sponsor"><img src="images/TB2020_Sponsor_chi_1.png" alt=""></div>
+                        <div class="sponsor2 sponsor"><img src="images/TB2020_Sponsor_chi_2.png" alt=""></div>
+                    </div>
+                    <div class="right-side">
+                        <div class="sponsor3 sponsor"><img src="images/TB2020_Sponsor_chi_3-tb.png" alt=""></div>
+                        <div class="sponsor4 sponsor"><img src="images/TB2020_Sponsor_chi_3-dragon.png" alt=""></div>
+                    </div>
+                </div>
+            </header>
+            <a href="../zh-Hant" class="lucky-draw-logo small"></a>
+            <div class="grand-luckydraw-logo"></div>
+            <div class="remind-message">
+                「幻彩詠香江」大型燈光音樂匯演將於午夜12:00在維多利亞港上演，<a style="color:#ff0000;" target="_blank" href="https://www.youtube.com/user/hongkong">按此</a>欣賞！<br><br>
+            </div>
+            <div class="box">
+                <div class="luckydraw-menu">
+                    <div class="title">壓軸大抽奬</div>
+                    <div class="wrapper">
+                        <div class="outer">
+                            <div class="btn-side">
+                                <div class="verify-luckydraw-result-btn btn">核對抽獎結果</div>
+                            </div>
+                            <div class="btn-side">
+                                <div class="check-luckydraw-result-btn btn">查詢電子抽獎券編號</div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--
+                --><div class="card-game-menu">
+                    <div class="title">即玩即贏抽獎遊戲</div>
+                    <div class="wrapper">
+                        <div class="outer">
+                            <div class="check-card-game-result-btn btn">查詢得獎編號</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prizelist">
+                <a href="#" class="show-luckydraw-prizelist">壓軸大抽獎抽獎結果</a> | <a href="#" class="show-card-game-prizelist">即玩即贏抽獎遊戲抽獎結果</a>
+            </div>
+
+        </div>
+        <div class="promotion-code">
+            推廣生意的競賽牌照號碼: 53010-11
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    // $('.prize-redemption').featherlight('tnc.html');
+
+    $('.check-card-game-result-btn').click(function() {
+        if (getCookie('access_token') == null) {
+            window.location.href = 'card-game-login.html';
+        }
+        else {
+            window.location.href = 'card-game-result.html';
+        }
+    });
+
+    $('.check-luckydraw-result-btn').click(function() {
+        if(restrictUserResultCheck()) {
+            alert('活動將於 01月01號上午2時公佈\nThe result will be announced at 2am on 01 January');
+            return;
+        }
+
+        $('#mask-wrapper').show();
+        if (getCookie('access_token') == null) {
+            window.location.href = 'show-lucky-draw-number.html';
+        }
+        else {
+            window.location.href = 'show-lucky-draw-number-for-user.html';
+        }
+    });
+
+    
+    $('.verify-luckydraw-result-btn').click(function() {
+        if(restrictUserResultCheck()) {
+            alert('活動將於 01月01號上午2時公佈\nThe result will be announced at 2am on 01 January');
+            return;
+        }
+        
+        $('#mask-wrapper').show();
+        window.location.href = 'luckydraw-number-check.html';
+        return;
+        
+    });
+
+    $('.show-luckydraw-prizelist').click(function(e) {
+        e.preventDefault();
+
+        $.featherlight({
+            iframe: 'luckydraw-prizelist.html', 
+            iframeWidth: window.innerWidth * 0.9,
+            iframeHeight: window.innerHeight * 0.9,
+        });
+    });
+
+    $('.show-card-game-prizelist').click(function(e) {
+        e.preventDefault();
+
+        $.featherlight({
+            iframe: 'card-game-prizelist.html', 
+            iframeWidth: window.innerWidth * 0.9,
+            iframeHeight: window.innerHeight * 0.9,
+        });
+    });
+});
+</script>
+<!--<script src="https://www.google.com/recaptcha/api.js?onload=onloadRecaptchaCallback&render=explicit" async defer></script>-->
+</body>
+
+
+</html>

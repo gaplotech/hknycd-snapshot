@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html class="page-luckydraw-prizelist">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>2020香港除夕倒數大抽獎</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/main.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155005261-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-155005261-1');
+    </script>
+    <style type="text/css">
+    table {
+        width: 100%;
+    }
+
+    table td {
+        text-align: center;
+    }
+    </style>
+</head>
+<body class="page-luckydraw-prizelist">
+    <p class="title">
+        2020「香港除夕倒數」大抽獎<br/>
+        壓軸大抽獎遊戲 - 得獎名單<br/>
+        推廣生意的競賽牌照號碼：53010-11
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th colspan="4">蘋果iPhone 11 Pro Max 256GB太空灰</th>
+            </tr>
+        </thead>
+
+        <tbody id="prize-list-2">
+            
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th colspan="4">香港迪士尼樂園渡假套票，每套包括 i) 迪士尼好萊塢酒店(標準客房) 一晚住宿; ii) 米奇廚師餐廳二人自助早餐; 及iii)「奇妙處處通」成人銀卡會籍兩套</th>
+            </tr>
+        </thead>
+
+        <tbody id="prize-list-3">
+            
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th colspan="4">香港海洋公園入場券兩張及香港海洋公園萬豪酒店雙人一晚住宿連早餐</th>
+            </tr>
+        </thead>
+
+        <tbody id="prize-list-4">
+            
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th colspan="4">香港君悅酒店雙人住宿一晚連自助早餐</th>
+            </tr>
+        </thead>
+
+        <tbody id="prize-list-5">
+            
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th colspan="4">香港半島酒店豪華客房住宿一晚及雙人自助早餐，更可享500港元餐飲消費額 (不適用於今佐日本料理)</th>
+            </tr>
+        </thead>
+
+        <tbody id="prize-list-6">
+            
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th colspan="4">香港海洋公園萬豪酒店雙人Spa服務</th>
+            </tr>
+        </thead>
+
+        <tbody id="prize-list-7">
+            
+        </tbody>
+    </table>
+
+    <div id="g-recaptcha-get-list" data-size="invisible"></div>
+
+    <script>
+        var requestLang = 1;
+
+        function onGetList(token) {
+            try {
+              //grecaptcha.reset(getListRecaptchaWidget);
+            }
+            catch(error) {
+            }
+
+            var $form = $('#form-login');
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json', cache: false,
+                url: config.endpoint + '/v1/list-lucky-draw-winner-ticket-number',
+                data: {
+                    lang: requestLang,
+                    page: 1,
+                    token: token
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    try {
+                      //grecaptcha.reset(getListRecaptchaWidget);
+                    }
+                    catch(error) {
+                    }
+                },
+                success: function (data) {
+                    if (data.status == 'success') {
+                        for (var prize = 2; prize <= 7; prize++) {
+                            var $currentRow = $('<tr></tr>');
+
+                            for (var i = 0; i < data.detail[prize].records.length; i++) {
+                                $currentRow.append('<td>' + data.detail[prize].records[i] + '</td>');
+
+                                if ((i + 1) % 4 == 0) {
+                                    $('#prize-list-' + prize).append($currentRow);
+                                    $currentRow = $('<tr></tr>');
+                                }
+                            }
+
+                            // append any remaining column
+                            var len = $currentRow.children().length;
+
+                            if (len > 0) {
+                                for (var j = 0; j < (4 - len); j++) {
+                                    $currentRow.append('<td></td>');
+                                }
+
+                                $('#prize-list-' + prize).append($currentRow);
+                            }
+
+                            
+                        }
+                    }
+                    else {
+                        var errorMessage = '';
+                        if (data.detail != null && data.detail.length > 0) {
+                            errorMessage = '';
+
+                            for (var i = 0; i < data.detail.length; ++i) {
+                                if (i > 0) {
+                                    errorMessage += '\n';
+                                }
+
+                                errorMessage += data.detail[i];
+                            }
+                        }
+                        else {
+                            if (requestLang == 1) {
+                                errorMessage = '系統繁忙，請稍後再試。';
+                            }
+                            else {
+                                errorMessage = 'The server is busy. Please try again later.';
+                            }
+                        }
+
+                        alert(errorMessage);
+                    }
+                },
+                error: function (data) {
+                    if (data && data.status >= 500) {
+  window.location.href = 'system-busy.html';
+}
+                },
+                statusCode: {
+                    400: function (data) {
+                        var errorMessage = '';
+
+                        $.each(data.responseJSON.detail, function (key, value) {
+                            errorMessage += value;
+                            errorMessage += '\n';
+                        });
+
+                        alert(errorMessage);
+
+                        if (window.location != window.parent.location)
+                            window.parent.location.reload();
+                        else
+                            window.location.href = '/zh-Hant';
+                    },
+                    401: function () {
+                        localStorage.removeItem('access_token');
+                        window.location.href = '/zh-Hant';
+                    },
+                    403: function (data) {
+                        var errorMessage = '';
+
+                        $.each(data.responseJSON.detail, function (key, value) {
+                            errorMessage += value;
+                            errorMessage += '\n';
+                        });
+
+                        alert(errorMessage);
+                    }
+                }
+            });
+        }
+
+        function showGetListRecaptchaWidget() {
+          try {
+            //grecaptcha.reset(getListRecaptchaWidget);
+            //grecaptcha.execute(getListRecaptchaWidget);
+          }
+          catch(error) {
+          }
+        }
+
+        $(document).ready(function () {
+          /*
+          getListRecaptchaWidget = grecaptcha.render('g-recaptcha-login-btn', {
+              'sitekey': '6Ldro8kUAAAAAFKNs0AIODd7RnzLkhWE6evNltmA',
+              'callback': onLogin
+          });
+          //grecaptcha.reset(getListRecaptchaWidget);
+          */
+          onGetList('88recaptcha');
+        });
+    </script>
+    <!--<script src="https://www.google.com/recaptcha/api.js?onload=onloadRecaptchaCallback&render=explicit" async defer></script>-->
+</body>
+</html>

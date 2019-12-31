@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html class="page-luckydraw-prizelist">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>2020香港除夕倒數大抽獎</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/main.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/url-search-params-polyfill-master/index.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155005261-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-155005261-1');
+    </script>
+    <style type="text/css">
+    table {
+        width: 100%;
+    }
+
+    table td {
+        text-align: center;
+    }
+
+    .pagination, .pagination * {
+        border: 0 !important;
+    }
+    </style>
+</head>
+<body class="page-luckydraw-prizelist">
+    <p class="title">
+        2020「香港除夕倒數」大抽獎<br/>
+        即玩即贏抽獎遊戲 - 得獎名單<br/>
+        推廣生意的競賽牌照號碼：53010-11
+    </p>
+    
+    <table>
+        <tbody id="prize-list">
+        </tbody>
+    </table>
+
+    <table class="pagination">
+        <tr>
+            <td>
+                <a href="#" id="pagination-previous">&lt; 上一頁</a>
+            </td>
+            <td id="pagination-page" style="text-align: center;"></td>
+            <td style="text-align: right;">
+                <a href="#" id="pagination-next">下一頁 &gt;</a>
+            </td>
+            </td id="pagination-page">
+        </tr>
+
+    </table>
+
+    <div id="g-recaptcha-get-list" data-size="invisible"></div>
+
+    <script>
+        var requestLang = 1;
+        var currentPage = Math.max(parseInt(new URLSearchParams(window.location.search).get('page')), 1);
+
+        if (isNaN(currentPage)) {
+            currentPage = 1;
+        }
+
+        $(document).ready(function() {
+            $('#pagination-previous').click(function() {
+                window.location.href = '?page=' + encodeURIComponent(currentPage - 1);
+            });
+
+            $('#pagination-next').click(function() {
+                window.location.href = '?page=' + encodeURIComponent(currentPage + 1);
+            });
+        });
+
+        function onGetList(token) {
+            try {
+              //grecaptcha.reset(getListRecaptchaWidget);
+            }
+            catch(error) {
+            }
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json', cache: false,
+                url: config.endpoint + '/v1/list-card-game-winner-coupon-number',
+                data: {
+                    lang: requestLang,
+                    page: currentPage,
+                    token: token
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    try {
+                      //grecaptcha.reset(getListRecaptchaWidget);
+                    }
+                    catch(error) {
+                    }
+                },
+                success: function (data) {
+                    if (data.status == 'success') {
+                        var $currentRow = $('<tr></tr>');
+
+                        for (var i = 0; i < data.detail.records.length; i++) {
+                            $currentRow.append('<td>' + data.detail.records[i] + '</td>');
+
+                            if ((i + 1) % 4 == 0) {
+                                $('#prize-list').append($currentRow);
+                                $currentRow = $('<tr></tr>');
+                            }
+                        }
+
+                        // append any remaining column
+                        var len = $currentRow.children().length;
+
+                        if (len > 0) {
+                            for (var j = 0; j < (4 - len); j++) {
+                                $currentRow.append('<td></td>');
+                            }
+
+                            $('#prize-list').append($currentRow);
+                        }
+
+                        $('#pagination-page').text('第' + (currentPage > data.detail.total_pages ? data.detail.total_pages : currentPage) + '頁，共' + data.detail.total_pages + '頁');
+
+                        if (currentPage >= data.detail.total_pages) {
+                            $('#pagination-next').css('opacity', 0);
+                        }
+
+                        if (currentPage <= 1) {
+                            $('#pagination-previous').css('opacity', 0);
+                        }
+                    }
+                    else {
+                        var errorMessage = '';
+                        if (data.detail != null && data.detail.length > 0) {
+                            errorMessage = '';
+
+                            for (var i = 0; i < data.detail.length; ++i) {
+                                if (i > 0) {
+                                    errorMessage += '\n';
+                                }
+
+                                errorMessage += data.detail[i];
+                            }
+                        }
+                        else {
+                            if (requestLang == 1) {
+                                errorMessage = '系統繁忙，請稍後再試。';
+                            }
+                            else {
+                                errorMessage = 'The server is busy. Please try again later.';
+                            }
+                        }
+
+                        alert(errorMessage);
+                    }
+                },
+                error: function (data) {
+                    if (data && data.status >= 500) {
+  window.location.href = 'system-busy.html';
+}
+                },
+                statusCode: {
+                    400: function (data) {
+                        var errorMessage = '';
+
+                        $.each(data.responseJSON.detail, function (key, value) {
+                            errorMessage += value;
+                            errorMessage += '\n';
+                        });
+
+                        alert(errorMessage);
+
+                        if (window.location != window.parent.location)
+                            window.parent.location.reload();
+                        else
+                            window.location.href = '/zh-Hant';
+                    },
+                    401: function () {
+                        localStorage.removeItem('access_token');
+                        window.location.href = '/zh-Hant';
+                    },
+                    403: function (data) {
+                        var errorMessage = '';
+
+                        $.each(data.responseJSON.detail, function (key, value) {
+                            errorMessage += value;
+                            errorMessage += '\n';
+                        });
+
+                        alert(errorMessage);
+                    }
+                }
+            });
+        }
+
+        function showGetListRecaptchaWidget() {
+          try {
+            //grecaptcha.reset(getListRecaptchaWidget);
+            //grecaptcha.execute(getListRecaptchaWidget);
+          }
+          catch(error) {
+          }
+        }
+
+        var onloadRecaptchaCallback = function () {
+          /*
+          getListRecaptchaWidget = grecaptcha.render('g-recaptcha-login-btn', {
+              'sitekey': '6Ldro8kUAAAAAFKNs0AIODd7RnzLkhWE6evNltmA',
+              'callback': onLogin
+          });
+          //grecaptcha.reset(getListRecaptchaWidget);
+          */
+          onGetList('88recaptcha');
+        };
+    </script>
+    <!--<script src="https://www.google.com/recaptcha/api.js?onload=onloadRecaptchaCallback&render=explicit" async defer></script>-->
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>2020香港除夕倒數大抽獎</title>
+    <link rel="stylesheet" href="js/FlipClock-master/compiled/flipclock.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/main.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/flip-master/src/flip.js"></script>
+    <script src="js/FlipClock-master/compiled/flipclock.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155005261-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-155005261-1');
+    </script>
+</head>
+<body class="page-card-game">
+<div id="mask-wrapper"></div>
+<div class="site-content">
+    <div class="background"></div>
+    <div class="container">
+        <header>
+            <div class="language-side">
+                <div class="language">
+                    <a href="../en" class="en lang">ENG</a>
+                </div>
+            </div>
+            <div class="logo-side">
+                <div class="left-side">
+                    <div class="sponsor1 sponsor"><img src="images/TB2020_Sponsor_chi_1.png" alt=""></div>
+                    <div class="sponsor2 sponsor"><img src="images/TB2020_Sponsor_chi_2.png" alt=""></div>
+                </div>
+                <div class="right-side">
+                    <div class="sponsor3 sponsor"><img src="images/TB2020_Sponsor_chi_3-tb.png" alt=""></div>
+                    <div class="sponsor4 sponsor"><img src="images/TB2020_Sponsor_chi_3-dragon.png" alt=""></div>
+                </div>
+            </div>
+        </header>
+        <div class="content">
+            <span class="lucky-draw-logo small"></span>
+            <div class="box">
+                <div class="detail">
+                    <div class="card-game-title"></div>
+                    <h2> 立即配對！即有機會贏取現金券！</h2>
+                </div><div class="voucher"></div>
+                <div class="description">
+                    點擊卡片翻牌，將地標圖片與地區名稱配成一組。成功完成挑戰後，系統將隨機送出港幣$100超市現金券。
+                </div>
+                <div class="voucher-desktop">
+                    <img src="images/TB2020_icon_voucher.png" alt="">
+                </div>
+                <a href="../zh-Hant" class="back-to-home-btn">返回主頁</a>
+            </div>
+        </div>
+        <div class="card-game">
+            <div class="wrapper">
+                <div class="cards"></div>
+            </div>
+        </div>
+    </div>
+    <div class="promotion-code">
+        推廣生意的競賽牌照號碼: 53010-11
+    </div>
+    <div id="g-recaptcha-card-game-redeem" data-size="invisible"></div>
+    <div id="g-recaptcha-card-game-check" data-size="invisible"></div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        var $cards = $('.card-game').find('.wrapper .cards');
+        // var $card = $cards.find('.card');
+        var filpTimes = 0;
+        var totalCount = 0;
+        var gameStatus = '';
+        var cardClass = [];
+        var clock = '';
+
+        //generate card
+        var cards = [];
+
+        function shuffle(a) {
+            var j, x, i;
+            for (i = a.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                x = a[i];
+                a[i] = a[j];
+                a[j] = x;
+            }
+            return a;
+        }
+
+        function shuffle(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
+
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
+        }
+
+        var result = [];
+        for($i=1;$i<=17;$i++) {
+            result[$i-1] = $i;
+        }
+
+        shuffle(result);
+
+        var j=0;
+        $.each(result, function(key, value) {
+            if(key == 4) {
+                return false;
+            }
+
+            cards[j] = 'pair' + value + ' card district-' + value;
+            j++;
+
+            cards[j] = 'pair' + value +' card attraction-' + value;
+            j++;
+        })
+
+        shuffle(cards);
+
+        var initCards = function () {
+            var templete = '';
+
+            $.each(cards, function(key, value) {
+                templete += "<div class='card " + value + "'><div class='outer'><div class='card-inner'><div class='card-front'></div><div class='card-back'></div></div></div></div>";
+                if(key == 3) {
+                    templete += "<div class='card'><div class='outer'><div class='start-game-btn'></div><div class='count-down-start-time'></div><div class='clock-side'><div class='clock'></div><div class='second-txt'>秒</div></div></div></div>"
+                }
+            })
+// console.log(cards);
+            $('.cards').append(templete);
+        }
+
+        var filpCard = function() {
+            var $this = $(this);
+
+            if($this.hasClass('complete') || $this.hasClass('filp') || gameStatus == 'end') {
+                return;
+            }
+
+            filpTimes++;
+
+            if(filpTimes > 2) {
+                return;
+            }
+
+            $this.flip(true);
+
+            $this.addClass('filp');
+
+            if(filpTimes == 2) {
+                var $selectedCard = $cards.find('.filp');
+                var pair = [];
+
+                $.each($selectedCard, function(key, value) {
+                    pair[key] = $(this).attr('class').split(' ')[1];
+                })
+
+                if(pair[0] != pair[1]) {
+                    setTimeout(function() {
+                        $selectedCard.removeClass('filp');
+                        $selectedCard.flip(false);
+                    }, 700);
+                } else {
+                    setTimeout(function() {
+                        $selectedCard.addClass('complete');
+                        $selectedCard.removeClass('filp');
+
+                        totalCount++;
+
+                        // console.log('count: ' +  );
+                        if(totalCount == 4) {
+                            gameStatus = 'end';
+                            clock.stop();
+                            // alert(clock.getCountdown());
+                            // $(".timer").timer('remove');
+
+                            //showCardGameRedeemRecaptchaWidget();
+                            onCardGameRedeem('88recaptcha');
+                        }
+                    }, 700);
+                }
+
+                setTimeout(function() {
+                    filpTimes = 0;
+                }, 700);
+            }
+        }
+
+        var startGame = function () {
+            $(".card").flip(true);
+            $('.start-game-btn').hide();
+            $('.count-down-start-time').text(3);
+
+            setTimeout(function() {
+                $('.count-down-start-time').text(2);
+                setTimeout(function() {
+                    $('.count-down-start-time').text(1);
+                    setTimeout(function() {
+                        $(".card").flip(false);
+                        initCountTimer();
+                        $('.count-down-start-time').hide();
+                    }, 1000);
+                }, 1000);
+            }, 1000);
+        }
+
+        var initCountTimer = function() {
+            $('.clock-side').show();
+
+            $cards.on('click', '.card', filpCard);
+
+            clock = $('.clock').FlipClock({
+                clockFace: 'Counter',
+                countdown: true,
+                autoStart: true,
+                callbacks: {
+                    stop: function() {
+                        var time  = clock.getTime();
+
+                        if(time == 0) {
+                            window.location.href = 'game-fail.html';
+                        }
+                    }
+                }
+            });
+
+            clock.setTime(61);
+            clock.start();
+        }
+
+        var initCardActions = function() {
+            $(".card").flip({
+                trigger: 'manual',
+                front: '.card-front',
+                back: '.card-back'
+            });
+
+            $(".card").flip(false);
+        }
+
+        initCards();
+        initCardActions();
+
+        $('.start-game-btn').on('click', startGame);
+
+        onCardGameCheck('88recaptcha');
+    });
+
+    function onCardGameCheck(token) {
+      if(getCookie('access_token') == null) {
+        window.location.href = 'card-game-register.html';
+        return;
+      }
+
+      var requestLang = 1;
+
+      $.ajax({
+        type: 'POST',
+        dataType: 'json', cache: false,
+        url: config.endpoint + '/v1/card-game-check',
+        data: {
+          lang: requestLang,
+          token: token
+        },
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('access_token'));
+        },
+        success: function (data) {
+          if(data.status == 'success') {
+              if(data.detail != null && typeof(data.detail) == 'string' && data.detail.length > 0) {
+                  localToken.set(data.detail);
+                  window.location.href = 'game-successful-with-coupon.html';
+              }
+          }
+        },
+        error: function (data) {
+            // if(data.status == "401") {
+            //     window.location.href = 'card-game-register.html';
+            // }
+
+            if (data && data.status >= 500) {
+  window.location.href = 'system-busy.html';
+}
+        }
+        ,statusCode: {
+              400: function(data) {
+                  var errorMessage = '';
+
+                  $.each( data.responseJSON.detail, function( key, value ) {
+                      errorMessage += value;
+                      errorMessage += '\n';
+                  });
+
+                  alert(errorMessage);
+              },
+              401: function () {
+                localStorage.removeItem('access_token');
+                window.location.href = '/zh-Hant';
+              },
+              403: function(data) {
+                  var errorMessage = '';
+
+                  $.each( data.responseJSON.detail, function( key, value ) {
+                      errorMessage += value;
+                      errorMessage += '\n';
+                  });
+
+                  alert(errorMessage);
+              }
+          }
+      });
+    }
+
+    function onCardGameRedeem(token) {
+      if(getCookie('access_token') == null) {
+        window.location.href = 'card-game-register.html';
+        return;
+      }
+
+      var requestLang = 1;
+      $('#mask-wrapper').show();
+      $.ajax({
+        type: 'POST',
+        dataType: 'json', cache: false,
+        url: config.endpoint + '/v1/card-game-redeem',
+        data: {
+          lang: requestLang,
+          token: token
+        },
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', 'Bearer ' + getCookie('access_token'));
+        },
+        success: function (data) {
+          if(data.status == 'success') {
+              if(data.detail != null && typeof(data.detail) == 'string' && data.detail.length > 0) {
+                  localToken.set(data.detail);
+                  window.location.href = 'game-successful-with-coupon.html';
+              }
+              else {
+                  window.location.href = 'game-successful.html';
+              }
+          }
+          else if (data.status == 'recaptcha') {
+            showCardGameRedeemRecaptchaWidget();
+          }
+          else {
+              window.location.href = 'game-fail.html';
+          }
+        },
+        error: function (data) {
+            // if(data.status == "401") {
+            //     window.location.href = 'card-game-register.html';
+            // }
+
+            window.location.href = 'game-fail.html';
+        }
+        ,statusCode: {
+              400: function(data) {
+                  var errorMessage = '';
+
+                  $.each( data.responseJSON.detail, function( key, value ) {
+                      errorMessage += value;
+                      errorMessage += '\n';
+                  });
+
+                  alert(errorMessage);
+                  $('#mask-wrapper').hide();
+              },
+              401: function () {
+                localStorage.removeItem('access_token');
+                window.location.href = '/zh-Hant';
+              },
+              403: function(data) {
+                  var errorMessage = '';
+
+                  $.each( data.responseJSON.detail, function( key, value ) {
+                      errorMessage += value;
+                      errorMessage += '\n';
+                  });
+
+                  alert(errorMessage);
+                  $('#mask-wrapper').hide();
+              }
+          }
+      });
+    }
+
+    function showCardGameRedeemRecaptchaWidget() {
+      try {
+        //grecaptcha.reset(cardGameRedeemRecaptchaWidget);
+        //grecaptcha.execute(cardGameRedeemRecaptchaWidget);
+      }
+      catch(error) {
+      }
+    }
+
+    function showCardGameCheckRecaptchaWidget() {
+      try {
+        //grecaptcha.reset(cardGameCheckRecaptchaWidget);
+        //grecaptcha.execute(cardGameCheckRecaptchaWidget);
+      }
+      catch(error) {
+      }
+    }
+
+    var cardGameRedeemRecaptchaWidget = null;
+    var cardGameCheckRecaptchaWidget = null;
+    var onloadRecaptchaCallback = function() {
+
+      cardGameRedeemRecaptchaWidget = grecaptcha.render('g-recaptcha-card-game-redeem', {
+        sitekey: '6Ldro8kUAAAAAFKNs0AIODd7RnzLkhWE6evNltmA',
+        callback: onCardGameRedeem
+      });
+      //grecaptcha.reset(cardGameRedeemRecaptchaWidget);
+      /*
+      cardGameCheckRecaptchaWidget = grecaptcha.render('g-recaptcha-card-game-check', {
+        sitekey: '6Ldro8kUAAAAAFKNs0AIODd7RnzLkhWE6evNltmA',
+        callback: onCardGameCheck
+      });
+      //grecaptcha.reset(cardGameCheckRecaptchaWidget);
+      */
+    };
+</script>
+<!--<script src="https://www.google.com/recaptcha/api.js?onload=onloadRecaptchaCallback&render=explicit" async defer></script>-->
+</body>
+</html>

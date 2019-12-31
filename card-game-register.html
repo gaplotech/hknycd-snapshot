@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>2020香港除夕倒數大抽獎</title>
+    <link rel="stylesheet" href="js/FlipClock-master/compiled/flipclock.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="js/featherlight-master/release/featherlight.min.css">
+    <script src="js/main.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/featherlight-master/release/featherlight.min.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155005261-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-155005261-1');
+    </script>
+    <!-- Global site tag (gtag.js) - Google Marketing Platform -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=DC-2640398"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'DC-2640398');
+    </script>
+
+    <style type="text/css">
+        .featherlight-content {
+            background: transparent !important;
+        }
+
+        .featherlight .featherlight-close-icon, title.featherlight-inner {
+            color: #fff !important;
+        }
+
+        .tnc-text {
+            color: #fff;
+        }
+
+        .tnc-text:hover {
+            color: #ccc;
+        }
+    </style>
+    <script>
+      let loginRecaptchaWidget, verifyRecaptchaWidget, registerRecaptchaWidget, loginRecaptchaWidget2, verifyRecaptchaWidget2, registerRecaptchaWidget2;
+
+      function showLoginRecaptchaWidget() {
+        try {
+          //grecaptcha.reset(loginRecaptchaWidget);
+          //grecaptcha.execute(loginRecaptchaWidget);
+        }
+        catch(error) {
+        }
+      }
+
+      function showVerifyRecaptchaWidget() {
+        try {
+          //grecaptcha.reset(verifyRecaptchaWidget);
+          //grecaptcha.execute(verifyRecaptchaWidget);
+        }
+        catch(error) {
+        }
+      }
+
+      function showRegisterRecaptchaWidget() {
+        try {
+          //grecaptcha.reset(registerRecaptchaWidget);
+          //grecaptcha.execute(registerRecaptchaWidget);
+        }
+        catch(error) {
+        }
+      }
+
+      function showLoginRecaptchaWidget2() {
+        try {
+          //grecaptcha.reset(loginRecaptchaWidget2);
+          //grecaptcha.execute(loginRecaptchaWidget2);
+        }
+        catch(error) {
+        }
+      }
+
+      function showVerifyRecaptchaWidget2() {
+        try {
+          //grecaptcha.reset(verifyRecaptchaWidget2);
+          //grecaptcha.execute(verifyRecaptchaWidget2);
+        }
+        catch(error) {
+        }
+      }
+
+      function showRegisterRecaptchaWidget2() {
+        try {
+          //grecaptcha.reset(registerRecaptchaWidget2);
+          //grecaptcha.execute(registerRecaptchaWidget2);
+        }
+        catch(error) {
+        }
+      }
+
+      function onRegisterCitizen(token) {
+        try {
+          //grecaptcha.reset(registerRecaptchaWidget);
+        }
+        catch(error) {
+        }
+
+        var $form = $('.form-detail.hk .register form');
+
+        if($('#tnc1').prop("checked") == false) {
+            alert('請閱讀和同意此活動之條款及細則');
+            return;
+        }
+
+        var requestLang = 1;
+        $('#mask-wrapper').show();
+        $.ajax({
+          type: 'POST',
+          dataType: 'json', cache: false,
+          url: config.endpoint + '/v2/register',
+          data: {
+            lang: requestLang,
+            type: 1,
+            is_citizen: 2,
+            name: $form.find('.form-input[name="name"]').val(),
+            id_number: $form.find('.form-input[name="identity"]').val(),
+            contact: $form.find('.form-input[name="contact"]').val(),
+            verify_token: $form.find('.form-input[name="code"]').val(),
+            token: token
+          },
+          success: function (data) {
+            if(data.status == 'success') {
+                gtag('event', 'conversion', {
+                    'allow_custom_scripts': true,
+                    'send_to': 'DC-2640398/2019n0/2019n005+standard'
+                });
+
+                localStorage.setItem('access_token', data.detail);
+                window.location.href = 'card-game.html';
+
+                // if(requestLang == 1) {
+                //     alert('登記成功。');
+                // }
+                // else {
+                //     alert('Register success.');
+                // }
+                //
+                // $form.find('.form-input[name="name"]').val('');
+                // $form.find('.form-input[name="identity"]').val('');
+                // $form.find('.form-input[name="contact"]').val('');
+                // $form.find('.form-input[name="code"]').val('');
+                //
+                // $('.form-detail.hk .login form .form-input[name="contact"]').val('');
+                // $('.form-detail.hk .login form .form-input[name="contact"]').focus();
+                // $('.form-detail.hk .login form .form-input[name="code"]').val('');
+            }
+            else if (data.status == 'recaptcha') {
+                showRegisterRecaptchaWidget();
+            }
+            else {
+                var errorMessage = '';
+                if(data.detail != null && data.detail.length > 0) {
+                    errorMessage = '';
+
+                    for(var i = 0; i < data.detail.length; ++i) {
+                        if(i > 0) {
+                            errorMessage += '\n';
+                        }
+
+                        errorMessage += data.detail[i];
+                    }
+                }
+                else {
+                    if(requestLang == 1) {
+                        errorMessage = '系統繁忙，請稍後再試。';
+                    }
+                    else {
+                        errorMessage = 'The server is busy. Please try again later.';
+                    }
+                }
+
+                alert(errorMessage);
+                $('#mask-wrapper').hide();
+            }
+          },
+          error: function (data) {
+                if (data && data.status >= 500) {
+  window.location.href = 'system-busy.html';
+}
+            },
+            statusCode: {
+                400: function(data) {
+                    var errorMessage = '';
+
+                    $.each( data.responseJSON.detail, function( key, value ) {
+                        errorMessage += value;
+                        errorMessage += '\n';
+                    });
+
+                    alert(errorMessage);
+                    $('#mask-wrapper').hide();
+                },
+                401: function () {
+                    localStorage.removeItem('access_token');
+                    window.location.href = '/zh-Hant';
+                },
+                403: function(data) {
+                    var errorMessage = '';
+
+                    $.each( data.responseJSON.detail, function( key, value ) {
+                        errorMessage += value;
+                        errorMessage += '\n';
+                    });
+
+                    alert(errorMessage);
+                    $('#mask-wrapper').hide();
+                }
+            }
+        });
+      }
+      
+      function onRegisterVisitor(token) {
+        var $form = $('.form-detail.visitor .register form');
+
+          if($('#tnc2').prop("checked") == false) {
+              alert('請閱讀和同意此活動之條款及細則');
+              return;
+          }
+
+        var requestLang = 1;
+        $('#mask-wrapper').show();
+        $.ajax({
+          type: 'POST',
+          dataType: 'json', cache: false,
+          url: config.endpoint + '/v2/register',
+          data: {
+            lang: requestLang,
+            type: 1,
+            is_citizen: 1,
+            name: $form.find('.form-input[name="name"]').val(),
+            id_number: $form.find('.form-input[name="passport"]').val(),
+            contact: $form.find('.form-input[name="email"]').val(),
+            verify_token: $form.find('.form-input[name="code"]').val(),
+            token: token
+          },
+          success: function (data) {
+            if(data.status == 'success') {
+                gtag('event', 'conversion', {
+                    'allow_custom_scripts': true,
+                    'send_to': 'DC-2640398/2019n0/2019n008+standard'
+                });
+                localStorage.setItem('access_token', data.detail);
+                window.location.href = 'card-game.html';
+            }
+            else if (data.status == 'recaptcha') {
+                showRegisterRecaptchaWidget2();
+            }
+            else {
+                var errorMessage = '';
+                if(data.detail != null && data.detail.length > 0) {
+                    errorMessage = '';
+
+                    for(var i = 0; i < data.detail.length; ++i) {
+                        if(i > 0) {
+                            errorMessage += '\n';
+                        }
+
+                        errorMessage += data.detail[i];
+                    }
+                }
+                else {
+                    if(requestLang == 1) {
+                        errorMessage = '系統繁忙，請稍後再試。';
+                    }
+                    else {
+                        errorMessage = 'The server is busy. Please try again later.';
+                    }
+                }
+
+                alert(errorMessage);
+                $('#mask-wrapper').hide();
+            }
+          },
+          error: function (data) {
+                if (data && data.status >= 500) {
+  window.location.href = 'system-busy.html';
+}
+            },
+            statusCode: {
+                400: function(data) {
+                    var errorMessage = '';
+
+                    $.each( data.responseJSON.detail, function( key, value ) {
+                        errorMessage += value;
+                        errorMessage += '\n';
+                    });
+
+                    alert(errorMessage);
+                    $('#mask-wrapper').hide();
+                },
+                401: function () {
+                    localStorage.removeItem('access_token');
+                    window.location.href = '/zh-Hant';
+                },
+                403: function(data) {
+                    var errorMessage = '';
+
+                    $.each( data.responseJSON.detail, function( key, value ) {
+                        errorMessage += value;
+                        errorMessage += '\n';
+                    });
+
+                    alert(errorMessage);
+                    $('#mask-wrapper').hide();
+                }
+            }
+        });
+      }
+
+      function onLoginCitizen(token) {
+        var $form = $('.form-detail.hk .login form');
+
+        var requestLang = 1;
+        $('#mask-wrapper').show();
+        $.ajax({
+          type: 'POST',
+          dataType: 'json', cache: false,
+          url: config.endpoint + '/v1/login',
+          data: {
+            lang: requestLang,
+            is_citizen: 2,
+            username: $form.find('.form-input[name="contact"]').val(),
+            password: $form.find('.form-input[name="code"]').val(),
+            token: token,
+                type: 1
+          },
+          success: function (data) {
+            if(data.status == 'success') {
+                if(data.detail != null) {
+                    localStorage.setItem('access_token', data.detail);
+
+                    window.location.href = 'card-game.html';
+                }
+                else {
+                    location.reload();
+                }
+            } 
+            else {
+                var errorMessage = '';
+                if(data.detail != null && data.detail.length > 0) {
+                    errorMessage = '';
+
+                    for(var i = 0; i < data.detail.length; ++i) {
+                        if(i > 0) {
+                            errorMessage += '\n';
+                        }
+
+                        errorMessage += data.detail[i];
+                    }
+                }
+                else {
+                    if(requestLang == 1) {
+                        errorMessage = '系統繁忙，請稍後再試。';
+                    }
+                    else {
+                        errorMessage = 'The server is busy. Please try again later.';
+                    }
+                }
+
+                alert(errorMessage);
+                $('#mask-wrapper').hide();
+            }
+          },
+          error: function (data) {
+                if (data && data.status >= 500) {
+  window.location.href = 'system-busy.html';
+}
+            },
+            statusCode: {
+                400: function(data) {
+                    var errorMessage = '';
+
+                    $.each( data.responseJSON.detail, function( key, value ) {
+                        errorMessage += value;
+                        errorMessage += '\n';
+                    });
+
+                    alert(errorMessage);
+                    $('#mask-wrapper').hide();
+                },
+                401: function () {
+                    localStorage.removeItem('access_token');
+                    window.location.href = '/zh-Hant';
+                },
+                403: function(data) {
+                    var errorMessage = '';
+
+                    $.each( data.responseJSON.detail, function( key, value ) {
+                        errorMessage += value;
+                        errorMessage += '\n';
+                    });
+
+                    alert(errorMessage);
+                    $('#mask-wrapper').hide();
+                }
+            }
+        });
+      }
+      
+      function onLoginVisitor(token) {
+        var $form = $('.form-detail.visitor .login form');
+
+        var requestLang = 1;
+        $('#mask-wrapper').show();
+        $.ajax({
+          type: 'POST',
+          dataType: 'json', cache: false,
+          url: config.endpoint + '/v1/login',
+          data: {
+            lang: requestLang,
+            is_citizen: 1,
+            username: $form.find('.form-input[name="email"]').val(),
+            password: $form.find('.form-input[name="passport"]').val(),
+            token: token,
+                type: 1
+          },
+          success: function (data) {
+            if(data.status == 'success') {
+                if(data.detail != null) {
+                    localStorage.setItem('access_token', data.detail);
+
+                    window.location.href = 'card-game.html';
+                }
+                else {
+                    location.reload();
+                }
+            }
+            else {
+                var errorMessage = '';
+                if(data.detail != null && data.detail.length > 0) {
+                    errorMessage = '';
+
+                    for(var i = 0; i < data.detail.length; ++i) {
+                        if(i > 0) {
+                            errorMessage += '\n';
+                        }
+
+                        errorMessage += data.detail[i];
+                    }
+                }
+                else {
+                    if(requestLang == 1) {
+                        errorMessage = '系統繁忙，請稍後再試。';
+                    }
+                    else {
+                        errorMessage = 'The server is busy. Please try again later.';
+                    }
+                }
+
+                alert(errorMessage);
+                $('#mask-wrapper').hide();
+            }
+          },
+          error: function (data) {
+                if (data && data.status >= 500) {
+  window.location.href = 'system-busy.html';
+}
+            },
+            statusCode: {
+                400: function(data) {
+                    var errorMessage = '';
+
+                    $.each( data.responseJSON.detail, function( key, value ) {
+                        errorMessage += value;
+                        errorMessage += '\n';
+                    });
+
+                    alert(errorMessage);
+                    $('#mask-wrapper').hide();
+                },
+                401: function () {
+                    localStorage.removeItem('access_token');
+                    window.location.href = '/zh-Hant';
+                },
+                403: function(data) {
+                    var errorMessage = '';
+
+                    $.each( data.responseJSON.detail, function( key, value ) {
+                        errorMessage += value;
+                        errorMessage += '\n';
+                    });
+
+                    alert(errorMessage);
+                    $('#mask-wrapper').hide();
+                }
+            }
+        });
+      }
+
+      function onVerifyCitizen(token) {
+        var $form = $('.form-detail.hk .register form');
+
+        var requestLang = 1;
+        $('#mask-wrapper').show();
+        $.ajax({
+          type: 'POST',
+          dataType: 'json', cache: false,
+          url: config.endpoint + '/v2/get-verify-token',
+          data: {
+            lang: requestLang,
+            type: 1,
+            value: $form.find('.form-input[name="contact"]').val(),
+            token: token
+          },
+          success: function (data) {
+            if(data.status == 'success') {
+                if(requestLang == 1) {
+                    alert('電郵通知系統會發送6位數字驗證碼到你登記的電郵地址。。');
+                }
+                else {
+                    alert('A confirmation email carrying a 6-digit verification code will be sent to your registered email address.');
+                }
+
+                $('#mask-wrapper').hide();
+                // $form.find('.form-input[name="contact"]').val('');
+                // $form.find('.form-input[name="contact"]').focus();
+            }
+            else {
+                var errorMessage = '';
+                if(data.detail != null && data.detail.length > 0) {
+                    errorMessage = '';
+
+                    for(var i = 0; i < data.detail.length; ++i) {
+                        if(i > 0) {
+                            errorMessage += '\n';
+                        }
+
+                        errorMessage += data.detail[i];
+                    }
+                }
+                else {
+                    if(requestLang == 1) {
+                        errorMessage = '系統繁忙，請稍後再試。';
+                    }
+                    else {
+                        errorMessage = 'The server is busy. Please try again later.';
+                    }
+                }
+
+                alert(errorMessage);
+                $('#mask-wrapper').hide();
+            }
+          },
+          error: function (data) {
+                if (data && data.status >= 500) {
+  window.location.href = 'system-busy.html';
+}
+            },
+            statusCode: {
+                400: function(data) {
+                    var errorMessage = '';
+
+                    $.each( data.responseJSON.detail, function( key, value ) {
+                        errorMessage += value;
+                        errorMessage += '\n';
+                    });
+
+                    alert(errorMessage);
+                    $('#mask-wrapper').hide();
+                },
+                401: function () {
+                    localStorage.removeItem('access_token');
+                    window.location.href = '/zh-Hant';
+                },
+                403: function(data) {
+                    var errorMessage = '';
+
+                    $.each( data.responseJSON.detail, function( key, value ) {
+                        errorMessage += value;
+                        errorMessage += '\n';
+                    });
+
+                    alert(errorMessage);
+                    $('#mask-wrapper').hide();
+                }
+            }
+        });
+      }
+
+      function onVerifyVisitor(token) {
+        var $form = $('.form-detail.visitor .register form');
+
+        var requestLang = 1;
+        $('#mask-wrapper').show();
+        $.ajax({
+          type: 'POST',
+          dataType: 'json', cache: false,
+          url: config.endpoint + '/v2/get-verify-token',
+          data: {
+            lang: requestLang,
+            type: 1,
+            value: $form.find('.form-input[name="email"]').val(),
+            token: token
+          },
+          success: function (data) {
+            if(data.status == 'success') {
+                if(requestLang == 1) {
+                    alert('電郵通知系統會發送6位數字驗證碼到你登記的電郵地址。。');
+                }
+                else {
+                    alert('A confirmation email carrying a 6-digit verification code will be sent to your registered email address.');
+                }
+                $('#mask-wrapper').hide();
+                // $form.find('.form-input[name="email"]').val('');
+                // $form.find('.form-input[name="email"]').focus();
+            }
+            else {
+                var errorMessage = '';
+                if(data.detail != null && data.detail.length > 0) {
+                    errorMessage = '';
+
+                    for(var i = 0; i < data.detail.length; ++i) {
+                        if(i > 0) {
+                            errorMessage += '\n';
+                        }
+
+                        errorMessage += data.detail[i];
+                    }
+                }
+                else {
+                    if(requestLang == 1) {
+                        errorMessage = '系統繁忙，請稍後再試。';
+                    }
+                    else {
+                        errorMessage = 'The server is busy. Please try again later.';
+                    }
+                }
+
+                alert(errorMessage);
+                $('#mask-wrapper').hide();
+            }
+          },
+          error: function (data) {
+                if (data && data.status >= 500) {
+  window.location.href = 'system-busy.html';
+}
+            },
+            statusCode: {
+                400: function(data) {
+                    var errorMessage = '';
+
+                    $.each( data.responseJSON.detail, function( key, value ) {
+                        errorMessage += value;
+                        errorMessage += '\n';
+                    });
+
+                    alert(errorMessage);
+                    $('#mask-wrapper').hide();
+                },
+                401: function () {
+                    localStorage.removeItem('access_token');
+                    window.location.href = '/zh-Hant';
+                },
+                403: function(data) {
+                    var errorMessage = '';
+
+                    $.each( data.responseJSON.detail, function( key, value ) {
+                        errorMessage += value;
+                        errorMessage += '\n';
+                    });
+
+                    alert(errorMessage);
+                    $('#mask-wrapper').hide();
+                }
+            }
+        });
+      }
+
+      $(document).ready(function() {
+        
+
+        //grecaptcha.reset(registerRecaptchaWidget);
+        
+        $('#register-button').click(function(event) {
+          event.preventDefault();
+          onRegisterCitizen('88recaptcha');
+        });
+        
+        
+
+        //grecaptcha.reset(loginRecaptchaWidget);
+        
+        $('#login-button').click(function(event) {
+          event.preventDefault();
+          onLoginCitizen('88recaptcha');
+        });
+        
+        /*
+        verifyRecaptchaWidget = grecaptcha.render('verify-button', {
+          'sitekey': '6Ldro8kUAAAAAFKNs0AIODd7RnzLkhWE6evNltmA',
+          'callback': onVerifyCitizen
+        });
+        //grecaptcha.reset(verifyRecaptchaWidget);
+        */
+        $('#verify-button').click(function(event) {
+          event.preventDefault();
+
+          if ($('.form-detail.hk .register form select[name="type"]').val() == 2 && !confirm('現時系統繁忙，如使用電話短信驗證最多可能需要2小時，是否繼續?')) {
+              return;
+          }
+
+          onVerifyCitizen('88recaptcha');
+        });
+        
+        
+
+        //grecaptcha.reset(registerRecaptchaWidget2);
+        
+        $('#register-button2').click(function(event) {
+          event.preventDefault();
+          onRegisterVisitor('88recaptcha');
+        });
+        
+        
+
+        //grecaptcha.reset(loginRecaptchaWidget2);
+        
+        $('#login-button2').click(function(event) {
+          event.preventDefault();
+          onLoginVisitor('88recaptcha');
+        });
+        
+        /*
+        verifyRecaptchaWidget2 = grecaptcha.render('verify-button2', {
+          'sitekey': '6Ldro8kUAAAAAFKNs0AIODd7RnzLkhWE6evNltmA',
+          'callback': onVerifyVisitor
+        });
+        //grecaptcha.reset(verifyRecaptchaWidget2);
+        */
+        $('#verify-button2').click(function(event) {
+          event.preventDefault();
+          onVerifyVisitor('88recaptcha');
+        });
+      });
+    </script>
+    <!--<script src="https://www.google.com/recaptcha/api.js?onload=onloadRecaptchaCallback&render=explicit" async defer></script>-->
+</head>
+<body class="page-card-game-register">
+<div id="mask-wrapper"></div>
+<div class="site-content">
+    <div class="background"></div>
+    <div class="container">
+        <header>
+            <div class="language-side">
+                <div class="language">
+                    <a href="../en" class="en lang">ENG</a>
+                </div>
+            </div>
+            <div class="logo-side">
+                <div class="left-side">
+                    <div class="sponsor1 sponsor"><img src="images/TB2020_Sponsor_chi_1.png" alt=""></div>
+                    <div class="sponsor2 sponsor"><img src="images/TB2020_Sponsor_chi_2.png" alt=""></div>
+                </div>
+                <div class="right-side">
+                    <div class="sponsor3 sponsor"><img src="images/TB2020_Sponsor_chi_3-tb.png" alt=""></div>
+                    <div class="sponsor4 sponsor"><img src="images/TB2020_Sponsor_chi_3-dragon.png" alt=""></div>
+                </div>
+            </div>
+        </header>
+        <a href="../zh-Hant" class="lucky-draw-logo small"></a>
+        <div class="form">
+            <div class="title"></div>
+            <div class="box">
+                <div class="rules-side">
+                    <div class="rules">
+                        60秒內成功配對四組地方及地標，即可參與抽獎，有機會贏取港幣$100禮券！兩萬張禮券隨機派出，每人參與次數不限，但只有一次中獎機會。
+                    </div>
+                </div>
+                <div class="selection-side">
+                    <div class="select-text">是次活動只供年滿18歲的香港市民及在港旅客參與。<br>請選擇 :</div>
+                    <ul>
+                        <li>
+                            <div class="hk button purple">香港居民</div>
+                        </li><!--
+                        --><li>
+                        <div class="visitor button blue">在港旅客</div>
+                    </li>
+                    </ul>
+                </div>
+                <div class="form-detail hk">
+                    <div class="login">
+                        <div class="login-title">登入</div>
+                        <form action="#">
+                            <div class="form-row">
+                                <div class="form-label">
+                                    <label for="login-contact">電郵地址</label>
+                                </div>
+                                <input id="login-contact" name="contact" type="text" class="form-input" placeholder="輸入電郵地址"/>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-label">
+                                    <label for="login-code">身份證號碼</label>
+                                </div>
+                                <input id="login-code" name="code" maxlength="5" type="text" class="form-input" placeholder="首五個英文及數字"/>
+                            </div>
+                            <div class="button-side">
+                                <div id="g-recaptcha-login" data-size="invisible"></div>
+                                <button id="login-button" class="submit-button button purple">開始遊戲</button>
+                            </div>
+                        </form>
+                    </div><!--
+                    --><div class="register">
+                    <div class="register-title">新用戶登記</div>
+                    <form action="#">
+                        <div class="form-row">
+                            <div class="form-label">
+                                <label for="name">英文全名</label>
+                            </div>
+                            <input id="name" name="name" type="text" class="form-input" placeholder="須與香港身份證上相同"/>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">
+                                <label for="identity">身份證號碼</label>
+                            </div>
+                            <input id="identity" name="identity" type="text" maxlength="5" class="form-input" placeholder="首五個英文及數字"/>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-label">
+                                <label for="type">電郵地址</label>
+                            </div>
+                            <input id="contact" name="contact" type="text" class="form-input contact"/>
+                            <!--<div class="button-side">
+                                <button id="verify-button" class="verify-button" type="button">獲取驗證碼</button>
+                            </div>-->
+                        </div>
+                        <!--<div class="form-row">
+                            <div class="form-label">
+                                <label for="code">驗證碼</label>
+                            </div>
+                            <input id="code" name="code" type="text" maxlength="6" class="form-input"/>
+                        </div>-->
+                        <div class="form-row tnc-side-content">
+                            <div class="tnc-side">
+                                <input type="checkbox" id="tnc1" name="tnc" class="tnc">
+                            </div>
+                            <label for="tnc" class="tnc-txt">
+                                本人已閱讀和同意此活動之<a target="_blank" href="/file/main_tnc/tc/NYCD2020_play_and_draw_games_T&C_chi.pdf" class="tnc-text">條款及細則</a>，並確認以上資料全均屬實。
+                            </label>
+                        </div>
+                        <div class="button-side">
+                            <div id="g-recaptcha-register" data-size="invisible"></div>
+                            <button id="register-button" class="submit-button button blue">開始遊戲
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                </div>
+                <div class="form-detail visitor">
+                    <div class="login">
+                        <div class="login-title">登入</div>
+                        <form action="#">
+                            <div class="form-row">
+                                <div class="form-label">
+                                    <label for="login-email">電郵地址</label>
+                                </div>
+                                <input id="login-email" name="email" type="email" class="form-input"/>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-label">
+                                    <label for="login-passport">旅遊證件號碼</label>
+                                </div>
+                                <input id="login-passport" name="passport" maxlength="5" type="text" class="form-input" placeholder="首五個英文字母或數字"/>
+                            </div>
+                            <div class="button-side">
+                                <div id="g-recaptcha-login2" data-size="invisible"></div>
+                                <button id="login-button2" class="submit-button button purple">登入</button>
+                            </div>
+                        </form>
+                    </div><!--
+                    --><div class="register">
+                        <div class="register-title">登記抽獎</div>
+                        <form action="#">
+                            <div class="form-row">
+                                <div class="form-label">
+                                    <label for="name">英文全名</label>
+                                </div>
+                                <input id="name" name="name" type="text" class="form-input" placeholder="須與旅遊證件上相同"/>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-label">
+                                    <label for="passport">旅遊證件號碼</label>
+                                </div>
+                                <input id="passport" name="passport" type="text" maxlength="5" class="form-input" placeholder="首五個英文字母或數字"/>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-label">
+                                    <label for="contact">電郵地址</label>
+                                </div>
+                                <input id="email" name="email" type="email" class="form-input email"/>
+                                <!-- <div class="button-side">
+                                    <button id="verify-button2" class="verify-button" type="button">獲取驗證碼</button>
+                                </div> -->
+                            </div>
+                            <!-- <div class="form-row">
+                                <div class="form-label">
+                                    <label for="code">驗證碼</label>
+                                </div>
+                                <input id="code" name="code" type="text" maxlength="6" class="form-input"/>
+                            </div> -->
+                            <div class="form-row tnc-side-content">
+                                <div class="tnc-side">
+                                    <input type="checkbox" id="tnc2" name="tnc" class="tnc">
+                                </div>
+                                <label for="tnc2" class="tnc-txt">
+                                    本人已閱讀和同意此活動之<a target="_blank" href="/file/main_tnc/tc/NYCD2020_play_and_draw_games_T&C_chi.pdf" class="tnc-text">條款及細則</a>，並確認以上資料全均屬實。
+                                </label>
+                            </div>
+                            <div class="button-side">
+                                <div id="g-recaptcha-register2" data-size="invisible"></div>
+                                <button id="register-button2" class="submit-button button blue">提交
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="promotion-code">
+        推廣生意的競賽牌照號碼: 53010-11
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var $selectionSide = $('.selection-side');
+        var $selectionSideSelectedButton = $selectionSide.find('.button');
+        var $currentRegion;
+
+        if (getCookie('access_token') != null) {
+            $('#mask-wrapper').show();
+            window.location.href = 'card-game.html';
+            return;
+        }
+
+        var setRegion = function() {
+            var $this = $(this);
+
+            $currentRegion = $this.attr('class').split(' ')[0];
+            $selectionSide.hide();
+
+            if($currentRegion == 'hk') {
+                gtag('event', 'conversion', {
+                    'allow_custom_scripts': true,
+                    'send_to': 'DC-2640398/2019n0/2019n001+standard'
+                });
+            } else {
+                gtag('event', 'conversion', {
+                    'allow_custom_scripts': true,
+                    'send_to': 'DC-2640398/2019n0/2019n003+standard'
+                });
+            }
+
+            $('.form-detail' + '.' + $currentRegion).show();
+        }
+
+        let timer = null;
+        let currSec = 60;
+
+        let $verifyButton = $('#send-verify');
+
+
+        function start() {
+            if (!timer) {
+                timer = setInterval(update, 1000);
+            }
+        }
+
+        function reset() {
+            if (timer) {
+                $verifyButton.html('獲取驗證碼');
+                clearInterval(timer);
+                timer = null;
+                currSec = 60
+            }
+        }
+
+        function update() {
+            if (currSec === 0) {
+                reset()
+            } else {
+                currSec--;
+                $verifyButton.html('重新發送... ' + currSec)
+            }
+        }
+
+        $verifyButton.on('click', function (event) {
+            event.preventDefault();
+            $verifyButton.attr('disabled', true);
+            if (timer) {
+                reset();
+            } else {
+                update();
+                start();
+            }
+        });
+
+        $('#choose-citizen').on("click", function () {
+            $('#type-chooser').addClass('hidden');
+            $('#member-forms').removeClass('hidden');
+            $('#user-type').val('1')
+        });
+        $('#choose-visitor').on("click", function () {
+            $('#type-chooser').addClass('hidden');
+            $('#member-forms').removeClass('hidden');
+            $('#user-type').val('2')
+        });
+
+        $selectionSideSelectedButton.on('click', setRegion);
+    });
+</script>
+</body>
+</html>
